@@ -9,13 +9,9 @@ import os
 # load_dotenv()
 
 # RDS config
-# DB_HOST = "database-1.c9mewsiq2n1k.us-east-1.rds.amazonaws.com"
 DB_HOST = os.getenv("host")
 DB_USER = os.getenv("user")
-# DB_USER = "admin"
-# DB_PASSWORD = "admin123"
 DB_PASSWORD = os.getenv("pass")
-# DB_NAME = "database1"
 DB_NAME = os.getenv("database")
 
 s3 = boto3.client('s3')
@@ -47,8 +43,8 @@ def lambda_handler(event, context):
         # 4. Insert data
         for row in csv_data:
             cursor.execute(
-                "INSERT INTO users (id, name, email) VALUES (%s, %s, %s)",
-                (row[0], row[1], row[2])
+                "INSERT INTO users_processed (id, name, email,processed_timestamp) VALUES (%s, %s, %s,%s)",
+                (row[0], row[1], row[2],row[3])
             )
 
         conn.commit()
